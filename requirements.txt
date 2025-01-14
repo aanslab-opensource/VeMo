@@ -1,0 +1,10 @@
+wheel
+setuptools
+scipy==1.11.4  
+numpy==1.25.2
+pandas==2.0.3 
+keras==2.15.0
+tensorflow==2.15.0
+matplotlib==3.7.1  
+graphviz==0.20.3
+pydot==1.2.2
