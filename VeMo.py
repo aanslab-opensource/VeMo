@@ -21,7 +21,7 @@ from   keras.models         import load_model
 def ax_loss(y_true, y_pred):
     mae_loss_ax = K.mean(K.abs(y_true[:, 0]    - tf.squeeze(y_pred) + 1e-10), axis=-1) # Mean Absolute Error
     mse_loss_ax = K.mean(K.square(y_true[:, 0] - tf.squeeze(y_pred) + 1e-10), axis=-1) # Mean Square Error
-    loss_ax = (1.0 * mae_loss_ax + 0 * mse_loss_ax )                                   # Mixing for regularization in training
+    loss_ax = (1 * mae_loss_ax + 0 * mse_loss_ax )                                     # Mixing for regularization in training
     return loss_ax
 
 def ay_loss(y_true, y_pred):
@@ -163,7 +163,7 @@ class VeMo:
         if save is True:
             print('\nfrom VeMo: NN Simulation Complete!, signals order: [ax, ay, yawrate, vx]\n')
             np.savez("NN_Simulation_Out.npz", y_pred_loaded = y_pred_loaded)
-            print('Simulation Output saved as \'nn_simulation_out.npz\'')
+            print('Simulation Output saved as \'nn_simulation_out.npz\')
 
         return y_pred_loaded
     
@@ -296,124 +296,4 @@ class VeMo_utils:
         y_pred_loaded[:, 3] = y_pred_loaded[:, 3] * scaling_factors['SPEED']
         return y_pred_loaded
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-########################################################################################
-# VEHICLE PRE-MODEL BUILDER 
-
-# class VeMo_premodel:
-
-#     def __init__(self, g=9.80665, v_max=70):
-#         self.g = g          # Standard gravity
-#         self.v_max = v_max  # Maximum velocity [m/s]
-
-#     def ax_estimator(self, gear, throttle_percentage, brake_percentage, A=0.0109, B=1.6, C=0.02):  
-
-#         def f_aux_ax(gear, throttle_percentage, brake_percentage, A, B, C):
-#             if brake_percentage > 0:
-#                 return -(C * self.g) * brake_percentage
-#             else:
-#                 return ((A * self.g) * throttle_percentage) - (self.g * np.log10(B * gear))
-
-#         def f_ax(gear, throttle_percentage, brake_percentage, A, B, C):
-#             if gear < 1:
-#                 return 0
-#             else:
-#                 return f_aux_ax(gear, throttle_percentage, brake_percentage, A, B, C)
-        
-#         ax_model = f_ax(gear, throttle_percentage, brake_percentage, A, B, C)
-#         return ax_model 
-    
-#     def ay_estimator(self, gear, steering_angle, D=2.05, E=0.5, F=0.015):
-#         ay_model = D * np.tanh(gear) * np.tanh(E * gear * np.sinh(F * steering_angle)) * self.g
-#         return ay_model
-    
-#     def yawrate_estimator(self, gear, steering_angle, G=0.005):
-#         yawrate_model = (self.v_max * gear) * np.tanh(G * steering_angle)
-#         return yawrate_model
-    
-#     def compute_premodel(self, input_data):
-
-#         if not isinstance(input_data, pd.DataFrame):
-#             raise ValueError("Input data must be a pandas DataFrame")
-        
-#         throttle = input_data['THROTTLE'].to_numpy()
-#         brake    = input_data['BRAKE'].to_numpy()
-#         steering = input_data['STEERING'].to_numpy()
-#         gear     = input_data['GEAR'].to_numpy()
-
-#         ax_computed = np.zeros(len(input_data))
-#         ay_computed = np.zeros(len(input_data))
-#         yawrate_computed = np.zeros(len(input_data))
-
-#         for i in range(len(input_data)):
-#             ax_computed[i] = self.ax_estimator(gear[i], throttle[i], brake[i])
-#             ay_computed[i] = self.ay_estimator(gear[i], steering[i])
-#             yawrate_computed[i] = self.yawrate_estimator(gear[i], steering[i])
-
-#         result_df = input_data.copy()
-#         result_df['AX_m'] = ax_computed
-#         result_df['AY_m'] = ay_computed
-#         result_df['YAWRATE_m'] = yawrate_computed
-
-#         return result_df
-
-#     def process_and_add_models(self, input_data):
-#         # Compute the premodel values and add them to the dataset
-#         result_df = self.compute_premodel(input_data)
-        
-#         # Reorder columns to insert computed results after the first four columns
-#         columns = input_data.columns.tolist()
-#         driver_controls = columns[:4]
-#         targets         = columns[4:]
-        
-#         # New order with computed columns inserted after the first four columns
-#         new_order = driver_controls + ['AX_m', 'AY_m', 'YAWRATE_m'] + targets
-        
-#         # Reorder the DataFrame
-#         result_df = result_df[new_order]
-        
-#         return result_df
-
-#########################################################################################
-# EOF
+## EOF ##
