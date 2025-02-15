@@ -22,7 +22,7 @@ print('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
 
 # PRE-PROCESSING
 data_TRAIN = './dataset/train_set.csv'
-data_VALID = './dataset/test_set.csv'
+data_VALID = './dataset/train_set.csv' 
 data_TEST  = './dataset/test_set.csv'
 
 # data params
